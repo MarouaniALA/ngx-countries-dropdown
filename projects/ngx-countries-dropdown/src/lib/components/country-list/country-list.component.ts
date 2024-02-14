@@ -1,13 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
-import { IConfig, ICountry } from '../../models';
-import { CountryService } from '../../services/country.service';
+import {Component, EventEmitter, HostListener, Input, OnInit, Output,} from '@angular/core';
+import {IConfig, ICountry} from '../../models';
+import {CountryService} from '../../services/country.service';
 
 @Component({
   selector: 'lib-country-list',
@@ -20,16 +13,51 @@ export class CountryListComponent implements OnInit {
   preferredCountryList: ICountry[] = [];
   countriesExpectBlocked: ICountry[] = [];
   filteredCountries: ICountry[] = [];
-  selectedCountry: ICountry = {};
+  selectedCountry: ICountry | null = null;
   displayList = false;
-  @Input() selectedCountryCode: string = '';
+
+  @Input()
+  get IPlaceholder() {
+    return this.placeholder;
+  }
+
+  set IPlaceholder(val: string) {
+    this.placeholder = val ?? 'Select country';
+  }
+
+  placeholder: string = 'Select country';
+
+  @Input()
+  get ISearchPlaceholder() {
+    return this.placeholder;
+  }
+
+  set ISearchPlaceholder(val: string) {
+    this.searchPlaceholder = val ?? 'Search';
+  }
+
+  searchPlaceholder: string = 'Search';
+
+  @Input({alias: 'selectedCountryCode'})
+  get ISelectedCountryCode() {
+    return this.selectedCountryCode;
+  }
+
+  set ISelectedCountryCode(val: string | undefined) {
+    this.selectedCountryCode = val;
+    this.performFilter();
+  }
+
+  selectedCountryCode: string | undefined = '';
   @Input() preferredCountryCodes: string[] = [];
   @Input() blockedCountryCodes: string[] = [];
   @Input() allowedCountryCodes: string[] = [];
   @Input() selectedCountryConfig: IConfig = {};
   @Input() countryListConfig: IConfig = {};
   @Output() onCountryChange = new EventEmitter();
-  constructor(private service: CountryService) {}
+
+  constructor(private service: CountryService) {
+  }
 
   ngOnInit(): void {
     this.countryList = this.service.getAllAllowedCountries(
@@ -44,14 +72,22 @@ export class CountryListComponent implements OnInit {
       this.preferredCountryCodes
     );
     this.filteredCountries = this.service.getStandardCountries();
+    this.performFilter();
+  }
+
+  performFilter() {
+    console.log(this.selectedCountryCode)
     if (this.selectedCountryCode) {
       const country = this.countriesExpectBlocked.find(
-        (x) => x.code === this.selectedCountryCode.toUpperCase()
+        (x) => x.code === this.selectedCountryCode?.toUpperCase()
       );
-      if(country){
-        this.selectedCountry= country;
+      if (country) {
+        this.selectedCountry = country;
         this.onCountryChange.emit(this.selectedCountry);
       }
+    } else {
+      this.selectedCountry = null;
+      this.onCountryChange.emit(null);
     }
   }
 
@@ -64,6 +100,7 @@ export class CountryListComponent implements OnInit {
   toggleList() {
     this.displayList = !this.displayList;
   }
+
   search() {
     this.preferredCountryList = this.service.getCountriesBasedOnSearch(
       this.service.getPreferredCountries(),

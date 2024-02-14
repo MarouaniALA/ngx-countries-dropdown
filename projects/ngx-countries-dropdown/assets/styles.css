@@ -38,9 +38,9 @@
   margin-left: auto;
   width: 0;
   height: 0;
-  border-left: 3px solid transparent;
-  border-right: 3px solid transparent;
-  border-top: 4px solid #555;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 10px solid #555;
 }
 
 .ipv_arrow--up {
@@ -149,7 +149,7 @@
 
 .ipv-mobile .ipv_country-list {
   max-height: 100%;
-  width: 100%;
+  width: -webkit-fill-available;
 }
 
 .ipv-mobile .ipv_country {
@@ -1523,4 +1523,10 @@
   background-color: transparent;
 }
 
+:dir(rtl)  {
+  .ipv_arrow {
+    margin-right: auto;
+    margin-left: inherit;
+  }
+}
 /*# sourceMappingURL=styles.css.map */

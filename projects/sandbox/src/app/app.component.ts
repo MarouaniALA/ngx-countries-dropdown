@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IConfig } from 'projects/ngx-countries-dropdown/src/lib/models';
+import {Component} from '@angular/core';
+import {IConfig, ICountry} from 'projects/ngx-countries-dropdown/src/lib/models';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +9,7 @@ import { IConfig } from 'projects/ngx-countries-dropdown/src/lib/models';
 export class AppComponent {
   title = 'sandbox';
   preferredCountryCodes: string[] = ['us', 'in'];
+  selectedCountryCode: any = 'in';
   blockedCountryCodes: string[] = [];
   selectedCountryConfig: IConfig = {
     displayCurrencyCode: true,
@@ -26,7 +27,12 @@ export class AppComponent {
   };
   allowedCountryCodes: string[] = [];
 
-  onCountryChange(country: any) {
+  onCountryChange(country: ICountry) {
     console.log(country);
+    this.selectedCountryCode = country?.code
+  }
+
+  reset() {
+    this.selectedCountryCode = undefined
   }
 }
