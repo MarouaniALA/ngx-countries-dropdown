@@ -9,7 +9,7 @@
     "test": "ng test",
     "build:sass": "sass projects/ngx-countries-dropdown/styles/dropdown.scss projects/ngx-countries-dropdown/assets/styles.css",
     "build:prod": "npm run build:sass && ng build ngx-countries-dropdown -c=production",
-    "publish": "npm publish dist/ngx-countries-dropdown"
+    "publish": "cd dist/ngx-countries-dropdown && npm publish"
   },
   "private": true,
   "dependencies": {

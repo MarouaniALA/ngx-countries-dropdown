@@ -16,7 +16,7 @@ export class CountryListComponent implements OnInit {
   selectedCountry: ICountry | null = null;
   displayList = false;
 
-  @Input()
+  @Input({alias: 'placeholder'})
   get IPlaceholder() {
     return this.placeholder;
   }
@@ -27,9 +27,9 @@ export class CountryListComponent implements OnInit {
 
   placeholder: string = 'Select country';
 
-  @Input()
+  @Input({alias: 'searchPlaceholder'})
   get ISearchPlaceholder() {
-    return this.placeholder;
+    return this.searchPlaceholder;
   }
 
   set ISearchPlaceholder(val: string) {
